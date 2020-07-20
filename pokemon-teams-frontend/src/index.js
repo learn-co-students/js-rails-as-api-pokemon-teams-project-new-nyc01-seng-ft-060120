@@ -5,7 +5,7 @@ const POKEMONS_URL = `${BASE_URL}/pokemons`
 const fetchTrainers = () => {
     return fetch(`${TRAINERS_URL}`)
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => renderTrainers(data))
 }
 
 const fetchPokemon = () => {
@@ -32,3 +32,30 @@ const releasePokemon = (id) => {
     }).then(response => response.json())
     .then(data => console.log(data))
 }
+
+const renderTrainer = (trainer) => {
+    const trainerCard = document.createElement('div')
+    trainerCard.className = 'card'
+    trainerCard.dataset.id = trainer.id
+    const header = document.createElement('p')
+    header.innerText = trainer.name
+    const addBtn = document.createElement('button')
+    addBtn.dataset.trainerId = trainer.id
+    addBtn.innerText = 'Add Pokemon'
+    const listItem = document.createElement('ul')
+    trainerCard.appendChild(header)
+    trainerCard.appendChild(addBtn)
+    trainerCard.appendChild(listItem)
+    document.querySelector('main').appendChild(trainerCard)
+
+}
+
+const renderTrainers = (trainers) => {
+    trainers.forEach(trainer => {
+        renderTrainer(trainer)
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchTrainers()
+})
