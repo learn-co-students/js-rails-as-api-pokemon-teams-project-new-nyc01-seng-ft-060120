@@ -6,6 +6,6 @@ class TrainersController < ApplicationController
 
   def show
     trainer = Trainer.find(params[:id])
-    render json: trainer.as_json(only: :name, include: { pokemons: { except: [:created_at, :updated_at] } })
+    render json: trainer.as_json(only: [:name, :id], include: { pokemons: { except: [:created_at, :updated_at] } })
   end
 end
