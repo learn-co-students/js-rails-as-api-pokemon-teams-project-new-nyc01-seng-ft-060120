@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             pokemons.forEach(pokemon => {
                 //console.log(pokemon)
                 const trainerID = parseInt(pokemon.trainer_id, 10);
-                //console.log(trainerID)
+                // console.log(trainerID)
                 const trainerDivs = document.querySelectorAll('div.card')
                 const div = trainerDivs[trainerID-1]
                 const ul = div.lastElementChild
@@ -47,6 +47,36 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    function clickHandler(){
+        document.addEventListener("click", function(e) {
+            if (e.target.hasAttribute('data-trainer-id')){
+                const id = e.target.getAttribute('data-trainer-id')
+                addNewPokemon(id)
+            } 
+
+        })
+
+    }
+
+
+    const addNewPokemon = (id) => {
+        fetch(`${POKEMONS_URL}`, {
+            method: "POST",
+            Headers: {
+                'Content-Type': 'application/json'
+            }, 
+            body: {pokemon: {'trainer_id': `${id}`}}
+
+        })
+        .then(response => response.json())
+        .then(pokemon => {
+            console.log(pokemon)
+        })
+    }
+
+    
+    
     getTrainers();
     getPokemon();
+    clickHandler();
 })
