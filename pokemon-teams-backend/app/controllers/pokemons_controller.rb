@@ -1,7 +1,11 @@
 class PokemonsController < ApplicationController
+require 'faker'
 
     def create
-        pokemon = Pokemon.create(pokemon_params)
+        pokemon = Pokemon.new(pokemon_params)
+        pokemon.nickname = Faker::Name.first_name
+        pokemon.species = Faker::Games::Pokemon.name
+        pokemon.save
         render json:pokemon
     end
 
@@ -12,6 +16,6 @@ class PokemonsController < ApplicationController
 
     private
     def pokemon_params
-        params.require(:pokemon).permit(:species, :nickname, :trainer_id)
+        params.require(:pokemon).permit(:trainer_id)
     end
 end
