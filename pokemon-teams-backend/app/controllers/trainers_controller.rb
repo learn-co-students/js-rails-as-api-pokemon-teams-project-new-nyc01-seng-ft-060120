@@ -1,7 +1,7 @@
 class TrainersController < ApplicationController
   def index
     trainers = Trainer.all
-    render json: trainers
+    render json: trainers.as_json(only: [:name, :id], include: { pokemons: { except: [:created_at, :updated_at] } })
   end
 
   def show
