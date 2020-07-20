@@ -11,7 +11,7 @@ const fetchTrainers = () => {
 const fetchPokemon = () => {
     return fetch(`${POKEMONS_URL}`)
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => filterPokemons(data))
 }
 
 const addPokemon = (pokeObject) => {
@@ -47,7 +47,31 @@ const renderTrainer = (trainer) => {
     trainerCard.appendChild(addBtn)
     trainerCard.appendChild(listItem)
     document.querySelector('main').appendChild(trainerCard)
+}
 
+const filterPokemons = (pokemons) => {
+    let idArray = pokemons.map(pokemon => pokemon.trainer_id)
+    idArray = Array.from(new Set(idArray))
+    idArray.forEach(id => {
+        renderPokeArray(pokemons.filter(pokemon => pokemon.trainer_id === id))
+    })
+}
+
+const renderPokeArray = (pokeArray) => {
+    id = pokeArray[0].trainer_id
+    let card = document.querySelector(`*[data-id='${id}']`)
+    let ul = card.querySelector('ul')
+
+    pokeArray.forEach(pokemon => {
+        let li = document.createElement('li')
+        let button = document.createElement('button')
+        button.className = 'release'
+        button.dataset.pokemonId = pokemon.id
+        button.innerText = 'Release'
+        li.innerText = `${pokemon.nickname} (${pokemon.name})`
+        li.appendChild(button)
+        ul.appendChild(li)
+    })
 }
 
 const renderTrainers = (trainers) => {
@@ -58,4 +82,5 @@ const renderTrainers = (trainers) => {
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchTrainers()
+    fetchPokemon()
 })
