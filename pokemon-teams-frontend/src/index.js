@@ -80,7 +80,39 @@ const renderTrainers = (trainers) => {
     });
 }
 
+
+// const addPokemonButton = (button) => {
+
+//     const pokemonObject  = {
+//         nickname: faker.name,
+//         species:  faker.species,
+//         trainer_id:
+//     }
+
+
+//     addPokemon()
+// }
+
+const releasePokemonButton = (button) => {
+    console.log(button)
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     fetchTrainers()
     fetchPokemon()
 })
+
+
+
+document.addEventListener('click', (e) => {
+   if (e.target.innerText === 'Add Pokemon'){
+       addPokemonButton(e.target)
+   }
+   else if (e.target.innerText === "Release"){
+        releasePokemonButton(e.target)
+   }
+})
+
+
+
+
