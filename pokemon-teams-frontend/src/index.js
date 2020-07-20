@@ -6,7 +6,7 @@ const mainElement = document.querySelector('main');
 // Document loaded
 document.addEventListener('DOMContentLoaded', () => {
 
-  getTrainer(3).then(trainer => createTrainerCard(trainer))
+  getTrainer(4).then(trainer => createTrainerCard(trainer))
 
   function getTrainer(id) {
     return fetch(`${TRAINERS_URL}/${id}`).then((response) => {return response.json()})
