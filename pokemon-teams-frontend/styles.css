@@ -25,10 +25,10 @@ body {
   
   div.card {
     background-color: #eeeeee;
-    height: 350px;
+    height: 550px;
     width: 300px;
     box-shadow: 10px 10px grey;
-    padding: 10px;
+    padding: 5px;
     border-radius: 10px;
   }
   
@@ -37,11 +37,16 @@ body {
     color: black;
     font-family: Helvetica;
   }
-  
-  li {
+
+  ul li {
     font-size: 1.05em;
     list-style: none;
-    padding-right: 20px;
+    padding-right: 5px;
+  }
+
+  ul {
+    padding: 5px;
+    margin: 8px;
   }
   
   button {
@@ -49,11 +54,13 @@ body {
     color: #fff;
     background-color: green;
     border-radius: 10px;
+    margin-left: 40px;
   }
   
   button.release {
     float: right;
     background-color: #E1332D;
+    margin-left: 5px;
   }
   
   @media only screen and (min-width: 500px) {

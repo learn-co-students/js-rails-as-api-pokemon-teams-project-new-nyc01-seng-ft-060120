@@ -11,7 +11,8 @@ const init = () => {
 const renderTrainer = (trainer) =>{
   let main = document.querySelector('main')
   const trainerContainer = document.createElement('div')
-  const trainerName = document.createElement('h3')
+  const trainerHeader = document.createElement('h3')
+  const trainerName = document.createElement('p')
   const addPokeBtn = document.createElement('button')
 
   addPokeBtn.dataset.trainerId = trainer.id
@@ -19,9 +20,9 @@ const renderTrainer = (trainer) =>{
   trainerName.innerHTML = trainer.name
   addPokeBtn.innerText = 'Add Pokemon'
   trainerContainer.classList.add("card");
-
-  trainerContainer.appendChild(addPokeBtn)
-  trainerContainer.appendChild(trainerName)
+  trainerContainer.appendChild(trainerHeader)
+  trainerName.appendChild(addPokeBtn)
+  trainerHeader.appendChild(trainerName)
   main.appendChild(trainerContainer)
   addPokeBtn.addEventListener("click", (e) => {addPokemon(addPokeBtn)});
   trainer.pokemons.forEach(pokemon => renderPokemon(pokemon))
@@ -36,8 +37,8 @@ const renderPokemon = (pokemon) => {
   removeBtn.classList.add('release')
   removeBtn.dataset.pokemonId = pokemon.id
   removeBtn.innerText = 'Release Me'
-  pokeName.innerHTML = `name: ${pokemon.nickname}`
-  pokeSpecies.innerHTML = `species: ${pokemon.species}`
+  pokeName.innerHTML = `<strong>name:</strong> ${pokemon.nickname}`
+  pokeSpecies.innerHTML = `<strong>species:</strong> <em>${pokemon.species}</em>`
   pokeDiv.appendChild(removeBtn)
   pokeDiv.appendChild(pokeName)
   pokeDiv.appendChild(pokeSpecies)
