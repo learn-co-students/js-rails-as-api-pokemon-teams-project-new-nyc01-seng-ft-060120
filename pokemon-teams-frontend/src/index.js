@@ -28,7 +28,7 @@ const renderTrainer = (trainer) =>{
   trainerContainer.appendChild(addPokeBtn)
   trainerContainer.appendChild(trainerName)
   main.appendChild(trainerContainer)
-
+  addBtnHandler(addPokeBtn)
   renderPokemons(trainer.pokemons)
 }
 
@@ -65,7 +65,24 @@ const removePokemon = (button) => {
   button.parentNode.remove()
 }
 
+const addBtnHandler = (button) => {
+  button.addEventListener('click', (e) => {addPokemon(button)})
+}
+
+const addPokemon = (button) => {
+  fetch(POKEMONS_URL, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'accept': 'application/json'
+    },
+    body: JSON.stringify({trainer_id: button.dataset.trainerId})
+  }).then(resp =>  resp.json())
+  .then(pokemon => {
+    renderPokemon(pokemon)
+  }) 
+}
+
 document.addEventListener('DOMContentLoaded', (e) => {
   fetchTrainers()
-
 })
