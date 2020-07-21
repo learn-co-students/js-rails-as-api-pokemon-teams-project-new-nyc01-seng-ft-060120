@@ -12,14 +12,14 @@ class PokemonsController < ApplicationController
         render json:pokemon, except: [:created_at, :updated_at]
     end 
 
-    # def show
-    #     pokemon = Pokemon.find(params[:id])
-    #     render json: pokemon, except: [:created_at, :updated_at]
-    # end
+    def show
+        pokemon = Pokemon.find(params[:id])
+        render json: pokemon, except: [:created_at, :updated_at]
+    end
     
-    # def destroy
-    #     Pokemon.find(params[:id]).destroy
-    # end
+    def destroy
+        Pokemon.find(params[:id]).destroy
+    end
 
     private
 

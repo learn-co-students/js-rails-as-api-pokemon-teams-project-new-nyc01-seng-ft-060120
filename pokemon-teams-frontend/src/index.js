@@ -56,10 +56,27 @@ document.addEventListener("DOMContentLoaded", () => {
             if (e.target.hasAttribute('data-trainer-id')){
                 const id = e.target.getAttribute('data-trainer-id')
                 addNewPokemon(id)
-            } 
+            } else if (e.target.hasAttribute('data-pokemon-id')){
+                const id = e.target.getAttribute('data-pokemon-id');
+                const parent = e.target.parentNode;
+                const ul = parent.parentNode;
+                releasePokemon(id)
+                parent.remove();
+                if (ul.children.length === 5) {
+                    ul.parentNode.children[1].disabled = false;
+                }
+            }
 
         })
 
+    }
+
+    function releasePokemon(id) {
+        fetch(`${POKEMONS_URL}/${id}`, {
+            method: 'DELETE',
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify({id: id})
+        })
     }
 
 
