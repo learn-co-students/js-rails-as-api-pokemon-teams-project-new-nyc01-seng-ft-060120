@@ -51,8 +51,18 @@ const renderPokemon = (pokemon) => {
   pokeDiv.appendChild(pokeName)
   pokeDiv.appendChild(pokeSpecies)
   trainerContainer.appendChild(pokeDiv)
-
+  removeBtnHandler(removeBtn)
 }
+
+const removeBtnHandler = (button) => {
+  button.addEventListener('click', removePokemon(button.dataset.pokemonId))
+}
+
+const removePokemon = (pokemonId) => {
+  
+}
+
+
 document.addEventListener('DOMContentLoaded', (e) => {
   fetchTrainers()
 
