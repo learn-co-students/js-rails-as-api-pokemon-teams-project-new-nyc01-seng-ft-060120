@@ -4,22 +4,27 @@ class PokemonsController < ApplicationController
         render json:pokemon
     end
 
-    def new 
-        pokemon = Pokemon.new 
-    end 
-
     def create 
         name = Faker::Name.first_name
         species = Faker::Games::Pokemon.name
-        pokemon = Pokemon.create(nickname: name, species: species, trainer_id: params[:trainer_id])
+        pokemon = Pokemon.create(nickname: name, species: species, trainer_id: pokemon_params[:trainer_id])
 
-        render json:pokemon
+        render json:pokemon, except: [:created_at, :updated_at]
     end 
 
-    private 
+    # def show
+    #     pokemon = Pokemon.find(params[:id])
+    #     render json: pokemon, except: [:created_at, :updated_at]
+    # end
+    
+    # def destroy
+    #     Pokemon.find(params[:id]).destroy
+    # end
 
-    # def pokemon_params 
-    #     params.require(:pokemon).permit(:nickname, :species, )
-    # end 
+    private
+
+    def pokemon_params
+        params.require(:pokemon).permit(:trainer_id)
+    end
 
 end
