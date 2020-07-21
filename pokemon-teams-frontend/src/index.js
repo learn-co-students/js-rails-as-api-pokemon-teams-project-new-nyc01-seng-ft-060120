@@ -55,13 +55,15 @@ const renderPokemon = (pokemon) => {
 }
 
 const removeBtnHandler = (button) => {
-  button.addEventListener('click', removePokemon(button.dataset.pokemonId))
+  button.addEventListener('click', (e) => {removePokemon(button)} )
 }
 
-const removePokemon = (pokemonId) => {
-  
+const removePokemon = (button) => {
+  fetch(POKEMONS_URL + `/${button.dataset.pokemonId}`, {
+    method: 'DELETE'
+  })
+  button.parentNode.remove()
 }
-
 
 document.addEventListener('DOMContentLoaded', (e) => {
   fetchTrainers()
