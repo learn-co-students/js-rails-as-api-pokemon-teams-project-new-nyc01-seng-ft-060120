@@ -93,7 +93,6 @@ const renderTrainers = (trainers) => {
     });
 }
 
-
 const addPokemonButton = (button) => {
     let id = button.parentElement.dataset.id
     if (button.parentElement.getElementsByTagName('li').length < 6) {
@@ -108,13 +107,10 @@ const releasePokemonButton = (button) => {
     releasePokemon(pokemonId)
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
     fetchTrainers()
     window.setTimeout(fetchPokemon, 500)
 })
-
-
 
 document.addEventListener('click', (e) => {
     if (e.target.innerText === 'Add Pokemon'){
@@ -122,10 +118,5 @@ document.addEventListener('click', (e) => {
     }
     else if (e.target.innerText === "Release"){
         releasePokemonButton(e.target)
-
     }
 })
-
-
-
-
