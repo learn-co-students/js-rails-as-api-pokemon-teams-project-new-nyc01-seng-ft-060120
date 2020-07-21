@@ -9,21 +9,22 @@ const init = () => {
 }
 
 const renderTrainer = (trainer) =>{
-  let main = document.querySelector('main')
+  const main = document.querySelector('main')
   const trainerContainer = document.createElement('div')
   const trainerHeader = document.createElement('h3')
   const trainerName = document.createElement('p')
   const addPokeBtn = document.createElement('button')
 
-  addPokeBtn.dataset.trainerId = trainer.id
+  trainerContainer.classList.add("card");
   trainerContainer.dataset.id = trainer.id
+  addPokeBtn.dataset.trainerId = trainer.id
   trainerName.innerHTML = trainer.name
   addPokeBtn.innerText = 'Add Pokemon'
-  trainerContainer.classList.add("card");
-  trainerContainer.appendChild(trainerHeader)
-  trainerName.appendChild(addPokeBtn)
-  trainerHeader.appendChild(trainerName)
+
   main.appendChild(trainerContainer)
+  trainerContainer.appendChild(trainerHeader)
+  trainerHeader.appendChild(trainerName)
+  trainerName.appendChild(addPokeBtn)
   addPokeBtn.addEventListener("click", (e) => {addPokemon(addPokeBtn)});
   trainer.pokemons.forEach(pokemon => renderPokemon(pokemon))
 }
@@ -43,7 +44,7 @@ const renderPokemon = (pokemon) => {
   pokeDiv.appendChild(pokeName)
   pokeDiv.appendChild(pokeSpecies)
   trainerContainer.appendChild(pokeDiv)
-  removeBtn.addEventListener('click', (e) => {removePokemon(removeBtn)} )
+  removeBtn.addEventListener('click', (e) => {removePokemon(removeBtn)})
 }
 
 const removePokemon = (button) => {
@@ -54,7 +55,8 @@ const removePokemon = (button) => {
 }
 
 const addPokemon = (button) => {
-  if(button.parentNode.querySelectorAll('ul').length < 6) {
+  const parentDiv = button.parentNode.parentNode.parentNode;
+  if(parentDiv.querySelectorAll('ul').length < 6) {
     fetch(POKEMONS_URL, {
       method: "POST",
       headers: {
@@ -65,9 +67,9 @@ const addPokemon = (button) => {
     })
     .then((resp) => resp.json())
     .then((pokemon) => {renderPokemon(pokemon)}); 
-  } else {alert('you can\'t have any more pokemon')}
+  } else {
+    alert('you can\'t have any more pokemon')
+  }
 }
 
-document.addEventListener('DOMContentLoaded', (e) => {
-  init()
-})
+document.addEventListener('DOMContentLoaded', (e) => { init() })
