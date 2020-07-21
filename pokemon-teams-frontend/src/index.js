@@ -2,15 +2,10 @@ const BASE_URL = "http://localhost:3000/api/v1"
 const TRAINERS_URL = `${BASE_URL}/trainers`
 const POKEMONS_URL = `${BASE_URL}/pokemons`
 
-const fetchTrainers = () => {
+const init = () => {
   fetch(TRAINERS_URL)
     .then((resp) => resp.json())
-    .then((trainers) => renderTrainers(trainers))
-    .catch(error => console.log(error))
-}
-
-const renderTrainers = (trainers) => {
-  trainers.forEach(trainer => renderTrainer(trainer))
+    .then((trainers) => trainers.forEach(trainer => renderTrainer(trainer)))
 }
 
 const renderTrainer = (trainer) =>{
@@ -28,12 +23,8 @@ const renderTrainer = (trainer) =>{
   trainerContainer.appendChild(addPokeBtn)
   trainerContainer.appendChild(trainerName)
   main.appendChild(trainerContainer)
-  addBtnHandler(addPokeBtn)
-  renderPokemons(trainer.pokemons)
-}
-
-const renderPokemons = (pokemons) => {
-  pokemons.forEach(pokemon => renderPokemon(pokemon))
+  addPokeBtn.addEventListener("click", (e) => {addPokemon(addPokeBtn)});
+  trainer.pokemons.forEach(pokemon => renderPokemon(pokemon))
 }
 
 const renderPokemon = (pokemon) => {
@@ -51,11 +42,7 @@ const renderPokemon = (pokemon) => {
   pokeDiv.appendChild(pokeName)
   pokeDiv.appendChild(pokeSpecies)
   trainerContainer.appendChild(pokeDiv)
-  removeBtnHandler(removeBtn)
-}
-
-const removeBtnHandler = (button) => {
-  button.addEventListener('click', (e) => {removePokemon(button)} )
+  removeBtn.addEventListener('click', (e) => {removePokemon(removeBtn)} )
 }
 
 const removePokemon = (button) => {
@@ -65,24 +52,21 @@ const removePokemon = (button) => {
   button.parentNode.remove()
 }
 
-const addBtnHandler = (button) => {
-  button.addEventListener('click', (e) => {addPokemon(button)})
-}
-
 const addPokemon = (button) => {
-  fetch(POKEMONS_URL, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json',
-      'accept': 'application/json'
-    },
-    body: JSON.stringify({trainer_id: button.dataset.trainerId})
-  }).then(resp =>  resp.json())
-  .then(pokemon => {
-    renderPokemon(pokemon)
-  }) 
+  if(button.parentNode.querySelectorAll('ul').length < 6) {
+    fetch(POKEMONS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({ trainer_id: button.dataset.trainerId }),
+    })
+    .then((resp) => resp.json())
+    .then((pokemon) => {renderPokemon(pokemon)}); 
+  } else {alert('you can\'t have any more pokemon')}
 }
 
 document.addEventListener('DOMContentLoaded', (e) => {
-  fetchTrainers()
+  init()
 })
