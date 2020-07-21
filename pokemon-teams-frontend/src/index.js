@@ -3,13 +3,15 @@ const TRAINERS_URL = `${BASE_URL}/trainers`
 const POKEMONS_URL = `${BASE_URL}/pokemons`
 
 document.addEventListener("DOMContentLoaded", () => {
-    const main = document.querySelector('main')
+    const main = document.querySelector('main');
+    
+    //console.log(divs);
     
     const getTrainers = () => {
         fetch(`${TRAINERS_URL}`)
         .then(response => response.json())
         .then(trainers => {
-            console.log(trainers);
+            //console.log(trainers);
             trainers.forEach(trainer => {
                 const div = document.createElement('div');
                 div.className = 'card';
@@ -30,21 +32,23 @@ document.addEventListener("DOMContentLoaded", () => {
         fetch(`${POKEMONS_URL}`)
         .then(response => response.json())
         .then(pokemons => {
-            //console.log(pokemon);
             pokemons.forEach(pokemon => {
-                //console.log(pokemon)
-                const trainerID = parseInt(pokemon.trainer_id, 10);
-                // console.log(trainerID)
-                const trainerDivs = document.querySelectorAll('div.card')
-                const div = trainerDivs[trainerID-1]
-                const ul = div.lastElementChild
-                //console.log(ul)
-                const li = document.createElement('li')
-                li.innerHTML = `${pokemon.nickname} (${pokemon.species})<button class="release" data-pokemon-id="${pokemon.id}">Release</button>`
-                //console.log(li)
-                ul.appendChild(li)
+                renderPokemon(pokemon);
             })
         })
+    }
+
+    function renderPokemon(pokemon) {
+        const trainerID = parseInt(pokemon.trainer_id, 10);
+        const trainerDivs = document.querySelectorAll('.card');
+        const div = trainerDivs[trainerID-1]
+        const ul = div.lastElementChild
+        const li = document.createElement('li')
+        li.innerHTML = `${pokemon.nickname} (${pokemon.species})<button class="release" data-pokemon-id="${pokemon.id}">Release</button>`
+        ul.appendChild(li)
+        if (ul.children.length === 6){
+            div.children[1].disabled = true;
+        }
     }
 
     function clickHandler(){
@@ -62,18 +66,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const addNewPokemon = (id) => {
         fetch(`${POKEMONS_URL}`, {
             method: "POST",
-            Headers: {
-                'Content-Type': 'application/json'
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept' : 'application/json'
             }, 
-            body: {pokemon: {'trainer_id': `${id}`}}
-
+            body: JSON.stringify({
+                'pokemon': {
+                    'trainer_id': `${id}`
+                }
+            })
         })
         .then(response => response.json())
         .then(pokemon => {
-            console.log(pokemon)
+            //console.log(pokemon)
+            renderPokemon(pokemon)
         })
     }
-
     
     
     getTrainers();
