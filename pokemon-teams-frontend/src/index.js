@@ -14,23 +14,26 @@ const fetchPokemon = () => {
     .then(data => filterPokemons(data))
 }
 
-const addPokemon = (pokeObject) => {
+const addPokemon = (id) => {
     return fetch(`${POKEMONS_URL}`, {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
             'accept': 'application/json'
         },
-        body: JSON.stringify(pokeObject)
+        body: JSON.stringify({trainer_id: id})
     }).then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => {
+        id = data.trainer_id;
+        renderPokemon(data, id);
+    })
 }
 
 const releasePokemon = (id) => {
     return fetch(`${POKEMONS_URL}/${id}`, {
         method: 'DELETE'
     }).then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => removePokemon(id))
 }
 
 const renderTrainer = (trainer) => {
@@ -58,20 +61,30 @@ const filterPokemons = (pokemons) => {
 }
 
 const renderPokeArray = (pokeArray) => {
-    id = pokeArray[0].trainer_id
-    let card = document.querySelector(`*[data-id='${id}']`)
+    let id = pokeArray[0].trainer_id
+
+    pokeArray.forEach((pokemon) => {
+        renderPokemon(pokemon, id)
+    })
+}
+
+const renderPokemon = (pokemon, trainer_id) => {
+    let card = document.querySelector(`*[data-id='${trainer_id}']`)
     let ul = card.querySelector('ul')
 
-    pokeArray.forEach(pokemon => {
-        let li = document.createElement('li')
-        let button = document.createElement('button')
-        button.className = 'release'
-        button.dataset.pokemonId = pokemon.id
-        button.innerText = 'Release'
-        li.innerText = `${pokemon.nickname} (${pokemon.name})`
-        li.appendChild(button)
-        ul.appendChild(li)
-    })
+    let li = document.createElement('li')
+    let button = document.createElement('button')
+    button.className = 'release'
+    button.dataset.pokemonId = pokemon.id
+    button.innerText = 'Release'
+    li.innerText = `${pokemon.nickname} (${pokemon.species})`
+    li.appendChild(button)
+    ul.appendChild(li)
+}
+
+const removePokemon = (pokemon_id) => {
+    let li = document.querySelector(`*[data-pokemon-id='${pokemon_id}']`).parentElement
+    li.remove();
 }
 
 const renderTrainers = (trainers) => {
@@ -81,36 +94,36 @@ const renderTrainers = (trainers) => {
 }
 
 
-// const addPokemonButton = (button) => {
-
-//     const pokemonObject  = {
-//         nickname: faker.name,
-//         species:  faker.species,
-//         trainer_id:
-//     }
-
-
-//     addPokemon()
-// }
+const addPokemonButton = (button) => {
+    let id = button.parentElement.dataset.id
+    if (button.parentElement.getElementsByTagName('li').length < 6) {
+        addPokemon(id)
+    } else {
+        console.log('too many pokemon')
+    }
+}
 
 const releasePokemonButton = (button) => {
-    console.log(button)
+    let pokemonId = button.dataset.pokemonId
+    releasePokemon(pokemonId)
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchTrainers()
-    fetchPokemon()
+    window.setTimeout(fetchPokemon, 500)
 })
 
 
 
 document.addEventListener('click', (e) => {
-   if (e.target.innerText === 'Add Pokemon'){
-       addPokemonButton(e.target)
-   }
-   else if (e.target.innerText === "Release"){
+    if (e.target.innerText === 'Add Pokemon'){
+        addPokemonButton(e.target)
+    }
+    else if (e.target.innerText === "Release"){
         releasePokemonButton(e.target)
-   }
+
+    }
 })
 
 
