@@ -43,6 +43,7 @@ const renderPokemon = (pokemon) => {
   const pokeSpecies = document.createElement('li')
   const removeBtn = document.createElement('button')
   removeBtn.classList.add('release')
+  removeBtn.dataset.pokemonId = pokemon.id
   removeBtn.innerText = 'Release Me'
   pokeName.innerHTML = `name: ${pokemon.nickname}`
   pokeSpecies.innerHTML = `species: ${pokemon.species}`
