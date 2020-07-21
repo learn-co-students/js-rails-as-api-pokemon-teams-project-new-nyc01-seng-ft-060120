@@ -21,6 +21,7 @@ body {
     grid-gap: 20px;
     padding-top: 10px;
     padding-bottom: 30px;
+    margin: 15px;
   }
   
   div.card {
@@ -36,6 +37,7 @@ body {
     font-size: 1.5em;
     color: black;
     font-family: Helvetica;
+    margin-left: 5px;
   }
 
   ul li {
@@ -45,7 +47,7 @@ body {
   }
 
   ul {
-    padding: 5px;
+    padding: 8px;
     margin: 8px;
   }
   
