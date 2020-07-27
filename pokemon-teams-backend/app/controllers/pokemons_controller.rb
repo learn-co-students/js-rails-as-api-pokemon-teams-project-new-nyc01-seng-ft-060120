@@ -3,7 +3,7 @@ class PokemonsController < ApplicationController
         pokemons = Pokemon.all
 
         render json: pokemons
-    end #my comment
+    end
 
     def create 
         pokemon = Pokemon.create(poke_params)
